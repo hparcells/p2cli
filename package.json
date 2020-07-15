@@ -1,0 +1,32 @@
+{
+  "name": "p2cli",
+  "version": "1.0.0",
+  "description": "Portal 2 command line helper.",
+  "main": "./out/index.js",
+  "bin": "./out/index.js",
+  "files": [
+    "out/**/*"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint --fix src/**/*",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run lint"
+  },
+  "author": "Hunter Parcells",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/fs-extra": "^9.0.1",
+    "@types/inquirer": "^6.5.0",
+    "@typescript-eslint/parser": "^3.6.1",
+    "eslint": "^7.4.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "prettier": "^2.0.5",
+    "typescript": "^3.9.6"
+  },
+  "dependencies": {
+    "fs-extra": "^9.0.1",
+    "inquirer": "^7.3.2"
+  }
+}
