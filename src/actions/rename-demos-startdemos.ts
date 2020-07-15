@@ -100,6 +100,9 @@ export default async function () {
     }
 
     const startdemosCommand = `startdemos ${allFiles
+      .sort((a, b) => {
+        return a - b;
+      })
       .map((fileNumber) => {
         return `${nameDemoName ? `${nameDemoName}_` : ''}${fileNumber}`;
       })
