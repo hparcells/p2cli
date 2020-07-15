@@ -47,13 +47,16 @@ export default async function () {
   ).shouldRename;
 
   if (shouldRename) {
-    const progressBar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
-    progressBar.start(files.length, 0);
+    const firstRenameProgressBar = new cliProgress.SingleBar(
+      {},
+      cliProgress.Presets.shades_classic
+    );
+    firstRenameProgressBar.start(files.length, 0);
 
     const allFiles: number[] = [];
 
-    files.forEach((fileName, index) => {
-      const regexMatch = fileName.match(regex);
+    files.forEach((fullFileName, index) => {
+      const regexMatch = fullFileName.match(regex);
       if (!regexMatch) {
         return;
       }
@@ -64,21 +67,39 @@ export default async function () {
       if (!regexResult) {
         newName = '1';
       } else {
-        newName = `${index + 1}`;
+        newName = `${regexResult.substring(1)}`;
       }
 
       allFiles.push(Number(newName));
-      fs.renameSync(`./${fileName}`, `${nameDemoName ? `${nameDemoName}_` : ''}${newName}.dem`);
+      fs.renameSync(`./${fullFileName}`, `${nameDemoName ? `${nameDemoName}_` : ''}${newName}.dem`);
 
-      progressBar.update(index + 1);
+      firstRenameProgressBar.update(index + 1);
     });
 
-    progressBar.stop();
+    firstRenameProgressBar.stop();
+
+    if (allFiles[0] !== 1) {
+      const secondRenameProgressBar = new cliProgress.SingleBar(
+        {},
+        cliProgress.Presets.shades_classic
+      );
+      secondRenameProgressBar.start(allFiles.length, 0);
+
+      allFiles
+        .sort((a, b) => {
+          return a - b;
+        })
+        .forEach((fileName, index) => {
+          fs.renameSync(`./${fileName}.dem`, `${index + 1}.dem`);
+          allFiles[index] = index + 1;
+
+          secondRenameProgressBar.update(index + 1);
+        });
+
+      secondRenameProgressBar.stop();
+    }
 
     const startdemosCommand = `startdemos ${allFiles
-      .sort((a, b) => {
-        return a - b;
-      })
       .map((fileNumber) => {
         return `${nameDemoName ? `${nameDemoName}_` : ''}${fileNumber}`;
       })
