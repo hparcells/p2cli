@@ -63,7 +63,7 @@ export default async function () {
       }
 
       allFiles.push(Number(newName));
-      fs.renameSync(`./${fileName}`, `${nameDemoName ? `${nameDemoName}_` : null}${newName}.dem`);
+      fs.renameSync(`./${fileName}`, `${nameDemoName ? `${nameDemoName}_` : ''}${newName}.dem`);
     });
 
     console.log('');
@@ -74,7 +74,7 @@ export default async function () {
           return a - b;
         })
         .map((fileNumber) => {
-          return `${nameDemoName ? `${nameDemoName}_` : null}${fileNumber}`;
+          return `${nameDemoName ? `${nameDemoName}_` : ''}${fileNumber}`;
         })
         .join(' ')}`
     );
