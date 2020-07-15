@@ -28,5 +28,13 @@
   "dependencies": {
     "fs-extra": "^9.0.1",
     "inquirer": "^7.3.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hparcells/p2cli.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hparcells/p2cli/issues"
+  },
+  "homepage": "https://github.com/hparcells/p2cli"
 }
